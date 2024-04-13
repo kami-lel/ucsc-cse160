@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>asg0</title>
+</head>
+
+<body onload="main()">
+
+    <canvas id="canvas" width="400" height="400">
+        Please use a browser that supports "canvas"
+    </canvas>
+
+    <p>
+        v1: x <input type="number" id="v1x"></input> y <input type="number" id="v1y"></input><br>
+        v2: x <input type="number" id="v2x"></input> y <input type="number" id="v2y"></input><br>
+        <input type="button" value="Draw" onclick="handleDrawEvent()"></input>
+    </p>
+
+    <p>
+        Operation: <select id="op_select">
+            <option value="add">Add</option>
+            <option value="sub">Subtract</option>
+            <option value="mul">Multiply</option>
+            <option value="div">Division</option>
+            <option value="angle_between">Angle Between</option>
+            <option value="area">Area</option>
+            <option value="magnitude">Magnitude</option>
+            <option value="normalize">Normalize</option>
+        </select>
+
+        Scalar<input type="number" id="scalar"></input>
+
+        <input type="button" value="Draw" onclick="handleDrawEvent()"></input>
+    </p>
+
+    <script src="asg0.js"></script>
+
+    <script src="../lib/cuon-matrix-cse160.js"></script>
+
+    <p>
+        Yangyi Lu (Erik)<br>
+        ylu155@uscc.edu<br>
+        <br>
+        Notes to Grader: n/a
+    </p>
+
+</body>
+</html>
