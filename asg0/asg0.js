@@ -2,6 +2,11 @@
 const VECTOR_PIXEL_SCALER = 20;
 
 function main() {
+    const canvas = document.getElementById("canvas");
+    const ctxt = canvas.getContext("2d");
+    // Clear Canvas
+    ctxt.fillStyle = "#000";
+    ctxt.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 function drawVector(v, color) {
@@ -40,8 +45,9 @@ function handleDrawEvent() {
     const canvas = document.getElementById("canvas");
     const ctxt = canvas.getContext("2d");
 
-    // clear canvas
-    ctxt.clearRect(0, 0, canvas.width, canvas.height);
+    // Clear Canvas
+    ctxt.fillStyle = "#000";
+    ctxt.fillRect(0, 0, canvas.width, canvas.height);
 
     // draw v1
     let v1x = document.getElementById("v1x").value;
