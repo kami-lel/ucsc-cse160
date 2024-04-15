@@ -98,13 +98,13 @@ let g_selectedType = POINT;
 let g_selected_cirlce_segment = 10;
 
 function addActionsForHtmlUI() {
-    document.getElementById("green").onclick = function () { g_selectedColor = [0.0, 1.0, 0.0, 1.0]; }
-    document.getElementById("red").onclick = function () { g_selectedColor = [1.0, 0.0, 0.0, 1.0]; }
-    document.getElementById("blue").onclick = function () { g_selectedColor = [0.0, 0.0, 1.0, 1.0]; }
-    document.getElementById("white").onclick = function () { g_selectedColor = [1.0, 1.0, 1.0, 1.0]; }
-    document.getElementById("cyan").onclick = function () { g_selectedColor = [0.0, 1.0, 1.0, 1.0]; }
-    document.getElementById("magenta").onclick = function () { g_selectedColor = [1.0, 0.0, 1.0, 1.0]; }
-    document.getElementById("yellow").onclick = function () { g_selectedColor = [1.0, 1.0, 0.0, 1.0]; }
+    document.getElementById("green").onclick = function () { g_selectedColor = [0.0, 1.0, 0.0, 1.0]; color_p();}
+    document.getElementById("red").onclick = function () { g_selectedColor = [1.0, 0.0, 0.0, 1.0]; color_p(); }
+    document.getElementById("blue").onclick = function () { g_selectedColor = [0.0, 0.0, 1.0, 1.0]; color_p(); }
+    document.getElementById("white").onclick = function () { g_selectedColor = [1.0, 1.0, 1.0, 1.0]; color_p(); }
+    document.getElementById("cyan").onclick = function () { g_selectedColor = [0.0, 1.0, 1.0, 1.0]; color_p(); }
+    document.getElementById("magenta").onclick = function () { g_selectedColor = [1.0, 0.0, 1.0, 1.0]; color_p(); }
+    document.getElementById("yellow").onclick = function () { g_selectedColor = [1.0, 1.0, 0.0, 1.0]; color_p(); }
 
 
     document.getElementById("clear").onclick = function () { g_shapeList = []; renderAllShapes(); }
@@ -119,6 +119,12 @@ function addActionsForHtmlUI() {
     document.getElementById('blue_slider').addEventListener('mouseup', function() { g_selectedColor[2] = this.value/100; });
     document.getElementById('size_slider').addEventListener('mouseup', function() { g_selectedSize = this.value; });
     document.getElementById('circle_seg_cnt').addEventListener('mouseup', function() { g_selected_cirlce_segment = this.value; });
+}
+
+function color_p() {
+    document.getElementById('red_slider').value = g_selectedColor[0] * 100;
+    document.getElementById('green_slider').value = g_selectedColor[1] * 100;
+    document.getElementById('blue_slider').value = g_selectedColor[2] * 100;
 }
 
 
