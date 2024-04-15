@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>asg1</title>
+  </head>
+
+  <body onload="main()">
+    <canvas id="webgl" width="400" height="400">
+    Please use a browser that supports "canvas"
+    </canvas>
+
+    <h3>Paint Control</h3>
+    <button type="button" id="clear">Clear</button>
+
+    <h4>shape seletor</h4><p>
+        <button type="button" id="point">Point</button>
+        <button type="button" id="triangle">Triangle</button>
+        <button type="button" id="circle">Circle</button>
+        <p id='slider_p'>Circle Segment Count<input type='range' min='3' max='30' value='10' class='slider' id='circle_seg_cnt'></p>
+    </p>
+
+    <h4>color & size</h4>
+    <p style="color:red">Red<input type='range' min='0' max='100' value='100' class='slider' id='red_slider'></p>
+    <p style="color:green">Green<input type='range' min='0' max='100' value='0' class='slider' id='green_slider'></p>
+    <p style="color:blue">Blue<input type='range' min='0' max='100' value='0' class='slider' id='blue_slider'></p>
+    <p>Size<input type='range' min='0' max='100' value='5' class='slider' id='size_slider'></p>
+
+    <h4>color palette</h4>
+    <p><button type="button" id="white">White</button></p>
+    <p><button type="button" id="red">Red</button>
+    <button type="button" id="green">Green</button>
+    <button type="button" id="blue">Blue</button></p>
+    <p><button type="button" id="cyan">Cyan</button>
+    <button type="button" id="magenta">Magenta</button>
+    <button type="button" id="yellow">Yellow</button></p>
+
+    <h3>Example</h3>
+    <img src="example.png" alt="can not load example picture" height=300px>
+    <br>
+    <button type="button" id="example">Paint Example</button>
+
+
+    <p id='numdot'></p>
+
+    <p>
+        CSE 160<br>
+        Programming Assignment 1<br>
+        Yangyi Lu (Erik)<br>
+        ylu155@uscc.edu<br>
+        <br>
+        Notes to Grader:<br>
+        I have improved the UI of this painting.<br>
+        E.g. circle segment selection slider will not be displayed when point or triangle is selected.<br>
+        I have also added a color palette.
+    </p>
+
+
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+    <script src="asg1.js"></script>
+    <script src="Point.js"></script>
+    <script src="Triangle.js"></script>
+    <script src="Circle.js"></script>
+  </body>
+</html>
