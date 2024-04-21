@@ -1,8 +1,8 @@
-===========
-ucsc-cse160
-===========
+=================
+ucsc-cse160-webgl
+=================
 
-git repo for UCSC CSE 160 programming assignments
+Git repository for UCSC *CSE 160* WebGL-related programming assignments
 
 Yangyi Lu (Erik)
 
