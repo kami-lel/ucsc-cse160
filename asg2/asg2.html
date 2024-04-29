@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Programming Assignment 2</title>
+        <meta charset="UTF-8" />
+    </head>
+
+    <body onload="main()">
+
+        <canvas id="webgl" width="800" height="800">
+            please use a browser that support canvas
+        </canvas>
+
+        <p>
+            <h3>Camera Control</h3>
+            Zoom<input type='range' min='0' max='100' value='50' class='slider' id='zoom_slider'><br>
+            Camera Rotate<input type='range' min='0' max='180' value='50' class='slider' id='rotate_slider'><br>
+            or by dragging mouse over canvas
+        </p>
+
+
+        <p>
+            <h3>Dragon Control</h3>
+            Landing<input type='range' min='0' max='75' value='0' class='slider' id='stand_up_slider'><br>
+            Look Up-Down<input type='range' min='-45' max='45' value='0' class='slider' id='look_y_slider'><br>
+            Look Wayside<input type='range' min='-45' max='45' value='0' class='slider' id='look_x_slider'>
+        </p>
+
+
+
+        <p>Animation:
+            <button type="button" id="anime_on">On</button>
+            <button type="button" id="anime_off">Off</button>
+        </p>
+
+        <p id='fps_indicator'></p>
+
+        <p>
+            CSE 160<br>
+            Programming Assignment 2<br>
+            Yangyi Lu (Erik)<br>
+            ylu155@uscc.edu<br>
+            <br>
+            Notes to Grader:<br>
+            Use Look Up-Down and Look Wayside slider to control dragon's head<br>
+            Shift-Click will enable dragon fire<br>
+            Landing Slider will affect multiple joints, including tails, head, legs, arms, clouds, ground etc.
+        </p>
+        <script src="../lib/cuon-matrix.js"></script>
+        <script src="../lib/cuon-utils.js"></script>
+        <script src="./Shape.js"></script>
+        <script src="./asg2.js"></script>
+
+    </body>
+
+</html>
