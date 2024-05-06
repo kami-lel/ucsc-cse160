@@ -475,10 +475,7 @@ function render_scene() {
     mouth.cor.translate(0, 0.06, 0.05);
     mouth.init_mat();
 
-    if (special_anime) {
-        mouth.mat.rotate(-50, 1, 0, 0);
-
-    } else if (io_enable_animation) {
+    if (io_enable_animation) {
         mouth.mat.rotate(Math.sin(elapsed_time/500)*10-15, 1, 0, 0);
     } else {
         mouth.mat.rotate(-20, 1, 0, 0);
