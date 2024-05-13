@@ -54,8 +54,12 @@ class CubeNew extends Shape {
         // pass in model mat
         gl.uniformMatrix4fv(u_ModelMatrix, false, this.mat.elements);
         // pass in texture selector
-        console.log(this.texture_index);
         gl.uniform1i(u_WhichTexture, this.texture_index)
+
+        if (this.texture_index == -1) {
+            let rgba = [1, 1, 0, 0.5];//this.color;
+            gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
+        }
 
         // draw front & back
         draw_plane([

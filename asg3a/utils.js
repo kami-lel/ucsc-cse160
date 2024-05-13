@@ -22,8 +22,16 @@ function set_texture2glsl(image, i) {
     }
 
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1); // Flip the image's y axis
+
     // Enable texture unit0
-    gl.activeTexture(gl.TEXTURE0);
+    if (i==0) {
+        gl.activeTexture(gl.TEXTURE0);
+    } else if (i==1) {
+        gl.activeTexture(gl.TEXTURE1);
+    } else if (i==2) {
+        gl.activeTexture(gl.TEXTURE2);
+    }
+
     // Bind the texture object to the target
     gl.bindTexture(gl.TEXTURE_2D, texture);
 

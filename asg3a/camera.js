@@ -88,6 +88,7 @@ class Camera {
 
         this.eye.add(delta);
         this.at.add(delta);
+        this.at.add(delta);
 
         this.update_view_mat();
     }
@@ -143,32 +144,50 @@ class Camera {
     }
 
     lookupdown(degree) {
-        let v = new Vector3();
-        v.set(this.eye);
-        v.sub(this.at);
-        v = Vector3.cross(v, this.up);  // a left right
+        let front = new Vector3();
+        front.set(this.at);
+        front.sub(this.eye);
+        front.normalize();
+
+        let right = new Vector3();
+        right = Vector3.cross(front, this.up)
+        right.normalize();
+
         let rotate_matrix = new Matrix4();
-        rotate_matrix.setRotate(-degree, v.elements[0], v.elements[1], v.elements[2]);
+        rotate_matrix.setRotate(degree, right.elements[0], right.elements[1], right.elements[2]);
 
-        this.at = rotate_matrix.multiplyVector3(this.at);
+        let change = rotate_matrix.multiplyVector3(front);
+        this.at.set(this.eye);
+        this.at.add(change);
 
-        this.update_view_mat();  // todo may have issue
+
+        this.update_view_mat();
     }
 
     click() {
-        let x = Math.floor(this.at.elements[0]);
-        let y = Math.floor(this.at.elements[1])
-        let z = Math.floor(this.at.elements[2]);
+        let l = this.at_l();
+        let i = this.at_i();
+        let j = this.at_j();
 
-        x += map_offset;
-        z += map_offset;
-        let v = MAPS[x][z];
-        if (v > 0) {  // destroy
-            v = 0;
+        let t = maps[l][i][j]
+        if (t > 0) {  // destroy
+            t = 0;
         } else {
-            v = 1;
+            t = 1;
         }
-        MAPS[x][z] = v;
+        maps[l][i][j] = t;
+    }
+
+    at_l(){
+        return Math.floor(this.at.elements[1]);
+    }
+
+    at_i() {
+        return Math.floor(this.at.elements[0]) + map_offset;
+    }
+
+    at_j() {
+        return Math.floor(this.at.elements[2]) + map_offset;
     }
 
 

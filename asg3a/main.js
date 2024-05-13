@@ -1,6 +1,6 @@
 /* global constant */
 let PIXEL_PER_DEGREE = 5;   // convert drag pixel count to degree
-IMG_PATHS = ["./grass_block_side.png", "./stone.png", "./dirt_path_top.png"]
+IMG_PATHS = ["./assets/grass_block_side.png", "./assets/stone.png", "./assets/dirt_path_top.png"]
 
 
 
@@ -14,7 +14,10 @@ let program_start_time;
 let elapsed_time;
 let world = {};
 let camera;
+let maps = [];
 let map_offset;
+let map_size;
+let map_layers;
 
 
 
@@ -45,9 +48,7 @@ let io_stand_up = 1;
 let io_enable_animation = true;
 let io_look_x = 0;
 let io_look_y = 0;
-
-
-let test_block;
+let io_enable_look_block = false;
 
 
 
@@ -169,16 +170,24 @@ function main() {
 
     /* init texture */
     let image0 = new Image();
-    image0.onload = function() { set_texture2glsl(image0, 0); }
+    image0.onload = () => { set_texture2glsl(image0, 0); }
     image0.src = IMG_PATHS[0];
 
     let image1 = new Image();
-    image1.onload = function() { set_texture2glsl(image1, 1); }
+    image1.onload = () => { set_texture2glsl(image1, 1); }
     image1.src = IMG_PATHS[1];
 
     let image2 = new Image();
-    image2.onload = function() { set_texture2glsl(image2, 2); }
+    image2.onload = () => { set_texture2glsl(image2, 2); }
     image2.src = IMG_PATHS[2];
+
+
+    /* init maps */
+    maps = DEFAULT_MAPS;
+    map_layers = DEFAULT_MAPS.length;
+    map_size = DEFAULT_MAPS[0].length;
+    map_offset = map_size / 2;
+
 
 
 
@@ -213,22 +222,17 @@ function main() {
             camera.move_left();
         } else if (ev.key == 'd') {
             camera.move_right();
-        } else if (ev.key == 'q') {
+        } else if (ev.key == 'q' || ev.key == 'j') {
             camera.pan_left();
-        } else if (ev.key == 'e') {
+        } else if (ev.key == 'e' || ev.key == 'l') {
             camera.pan_right();
         } else if (ev.key == 'c') {
             camera.click();
         } else if (ev.key == 'i') {
-            camera.lookupdown(10);
+            camera.lookupdown(6);
         } else if (ev.key == 'k') {
-            camera.lookupdown(-10);
+            camera.lookupdown(-6);
         }
-
-
-
-
-
     })
 
     // mouse dragging
@@ -255,6 +259,13 @@ function main() {
 
     document.onmouseup = function() { io_mouse_is_down = false; }  // end dragging
 
+    // buttons
+    document.getElementById("maze_gen").onclick = function () {
+    }
+    document.getElementById("look_block").onclick = function () {
+        io_enable_look_block = !io_enable_look_block;
+    }
+
 
 
 
@@ -278,9 +289,8 @@ function main() {
 
 
 function render_scene() {
+
     clear_canvas(convert_hex_to_rgba(0x0));
-
-
     render_dragon();
 
     gl.uniformMatrix4fv(u_ProjectionMatrix , false, camera.proj_mat.elements);
@@ -293,38 +303,36 @@ function render_scene() {
 
 
     // create blocks
-    world.blocks = [];
-    let map_size = MAPS.length;
-    map_offset = map_size / 2;
-    for (let x = 0; x < map_size; x++) {
-        for (let z = 0; z < map_size; z++) {
-            let v = MAPS[x][z];
-            let t = TEXTURES[x][z];
-            if (v > 0) {
+    for (let l = 0; l < map_layers; l++) {
 
-                let x_cor = x - map_offset;
-                let z_cor = z - map_offset;
-                let y_cor = 0.5;
+        for (let i = 0; i < map_size; i++) {
+            for (let j = 0; j < map_size; j++) {
+                let t = maps[l][i][j];  // texture index
+                if (io_enable_look_block &&
+                     l == camera.at_l() && i == camera.at_i() && j == camera.at_j()) {
+                    let x = i - map_offset + 0.5;
+                    let z = j - map_offset + 0.5;
+                    let y = l + 0.5;
 
-                for (let y = 0; y < v; y++) {
                     let block = new CubeNew();
-                    block.mat.setTranslate(x_cor, y_cor, z_cor);
-                    block.texture_index = t;
+                    block.mat.setTranslate(x, y, z);
+                    block.color = convert_hex_to_rgba(0xFFFFFF, 0.5);
+                    block.texture_index = -1;
                     block.render();
 
-                    y_cor += 1;
-                }
+                } else if (t > 0) {
+                    let x = i - map_offset + 0.5;
+                    let z = j - map_offset + 0.5;
+                    let y = l + 0.5;
 
+                    let block = new CubeNew();
+                    block.mat.setTranslate(x, y, z);
+                    block.texture_index = t-1;  // texture 0 is saved as 1 in maps
+                    block.render();
+                }
             }
         }
     }
-
-    // render world
-//    for (block of world.blocks) {
-//        block.render();
-//    }
-
-
 }
 
 
