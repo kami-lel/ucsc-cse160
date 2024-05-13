@@ -18,6 +18,8 @@ let maps = [];
 let map_offset;
 let map_size;
 let map_layers;
+let select_block;
+let mountain;
 
 
 
@@ -43,12 +45,14 @@ let u_WhichTexture;
 /* io */
 let io_mouse_is_down = false;
 let io_mouse_x_cache, io_mouse_y_cache;
-// todo
 let io_stand_up = 1;
 let io_enable_animation = true;
 let io_look_x = 0;
 let io_look_y = 0;
+let io_block_select = 1;
+
 let io_enable_look_block = false;
+let dragon_control;
 
 
 
@@ -183,14 +187,17 @@ function main() {
 
 
     /* init maps */
-    maps = DEFAULT_MAPS;
+    maps = structuredClone(DEFAULT_MAPS);
     map_layers = DEFAULT_MAPS.length;
     map_size = DEFAULT_MAPS[0].length;
     map_offset = map_size / 2;
 
+    select_block = new CubeNew();
+    select_block.texture_index = -1;  // color
+    select_block.color = convert_hex_to_rgba(0xFF0000, 0.5);
 
-
-
+    mountain = new Mountain();
+    dragon_control = new DragonControl();
 
 
     /* inits */
@@ -207,9 +214,7 @@ function main() {
     world.sky = sky;  // todo sky have fake lighting
 
 
-    //init_dragon();
-    test_block = new CubeNew();
-
+    init_dragon();
 
     /* set up camera control */
     camera = new Camera();
@@ -261,10 +266,36 @@ function main() {
 
     // buttons
     document.getElementById("maze_gen").onclick = function () {
+        let [l, i, j] = camera.at_lij();
+        mountain.start(i, j);
     }
     document.getElementById("look_block").onclick = function () {
         io_enable_look_block = !io_enable_look_block;
     }
+    document.getElementById("restore_map").onclick = function () {
+        maps = structuredClone(DEFAULT_MAPS);
+    }
+    document.getElementById("land").onclick = function () {
+        let delta = new Vector3();
+        delta.set(camera.at);
+        delta.sub(camera.eye);
+
+        let final = new Vector3();
+        final.set(camera.eye);
+        final.add(delta.mul(3));
+
+        dragon_control.start(final.elements[0], final.elements[1], final.elements[2]);
+    }
+    document.getElementById("b1").onclick = function () {
+        io_block_select = 1;
+    }
+    document.getElementById("b2").onclick = function () {
+        io_block_select = 2;
+    }
+    document.getElementById("b3").onclick = function () {
+        io_block_select = 3;
+    }
+
 
 
 
@@ -296,6 +327,8 @@ function render_scene() {
     gl.uniformMatrix4fv(u_ProjectionMatrix , false, camera.proj_mat.elements);
     gl.uniformMatrix4fv(u_ViewMatrix , false, camera.view_mat.elements);
 
+    mountain.render();
+    dragon_control.render();
 
     // render world
     world.ground.render();
@@ -308,17 +341,15 @@ function render_scene() {
         for (let i = 0; i < map_size; i++) {
             for (let j = 0; j < map_size; j++) {
                 let t = maps[l][i][j];  // texture index
-                if (io_enable_look_block &&
-                     l == camera.at_l() && i == camera.at_i() && j == camera.at_j()) {
+                let [at_l, at_i, at_j] =  camera.at_lij();
+
+                if (io_enable_look_block && l==at_l && i==at_i && j==at_j ) {
                     let x = i - map_offset + 0.5;
                     let z = j - map_offset + 0.5;
                     let y = l + 0.5;
 
-                    let block = new CubeNew();
-                    block.mat.setTranslate(x, y, z);
-                    block.color = convert_hex_to_rgba(0xFFFFFF, 0.5);
-                    block.texture_index = -1;
-                    block.render();
+                    select_block.mat.setTranslate(x, y, z);
+                    select_block.render();
 
                 } else if (t > 0) {
                     let x = i - map_offset + 0.5;

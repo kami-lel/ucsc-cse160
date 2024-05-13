@@ -165,29 +165,31 @@ class Camera {
     }
 
     click() {
-        let l = this.at_l();
-        let i = this.at_i();
-        let j = this.at_j();
+        let [l, i, j] = this.at_lij();
 
         let t = maps[l][i][j]
         if (t > 0) {  // destroy
             t = 0;
         } else {
-            t = 1;
+            t = io_block_select;
         }
         maps[l][i][j] = t;
     }
 
-    at_l(){
-        return Math.floor(this.at.elements[1]);
-    }
+    at_lij() {
+        let delta = new Vector3();
+        delta.set(this.at);
+        delta.sub(this.eye);
 
-    at_i() {
-        return Math.floor(this.at.elements[0]) + map_offset;
-    }
+        let far_at = new Vector3();
+        far_at.set(this.eye);
+        far_at.add(delta.mul(2.5));
 
-    at_j() {
-        return Math.floor(this.at.elements[2]) + map_offset;
+        let l = Math.floor(far_at.elements[1]);
+        let i = Math.floor(far_at.elements[0]) + map_offset;
+        let j = Math.floor(far_at.elements[2]) + map_offset;
+
+        return [l, i, j];
     }
 
 

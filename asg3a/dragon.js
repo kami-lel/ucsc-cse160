@@ -122,13 +122,72 @@ function init_dragon() {
     shapes.push(rwing);
 }
 
+let dragon_x = 15;
+let dragon_y = 10;
+let dragon_z = 15;
+let dragon_bearing = 20;
 
+class DragonControl {
+    constructor() {
+        this.start_time = -1;
+    }
+
+    start(tx, ty, tz, tb) {
+        if (this.start_time != -1) {
+            return;
+        }
+
+        this.start_time = performance.now();
+        this.tx = tx;
+        this.ty = ty;
+        this.tz = tz;
+        this.tb = tb;
+
+        if (this.ty < 1.2) {
+            this.ty = 1.2;
+        }
+    }
+
+    render() {
+        if (this.start_time < 0) {
+            return;
+        }
+        let timer = performance.now() - this.start_time;
+
+        if (timer < 4000) {  // flying to player
+            dragon_x = 15 + (this.tx - 15) * (timer/4000);
+            dragon_z = 15 + (this.tz - 15) * (timer/4000);
+        } else if (timer < 6000) {  // landing
+            let d = (timer - 4000) / 2000;
+            io_stand_up = d * 75;
+            dragon_y = 10 + (this.ty - 10) * d;
+        } else if (timer < 13000) {  // do nothing
+        } else if (timer < 15000) {  // go up
+            let d = (1-(timer-13000)/2000);
+            dragon_y = 10 + (this.ty - 10) * d;
+            io_stand_up = d*75;
+        } else if (timer < 17000) {  // go back
+            let d = (1-(timer-15000)/2000);
+            dragon_x = 15 + (this.tx - 15) * d;
+            dragon_z = 15 + (this.tz - 15) * d;
+        } else {
+            dragon_x = 15;
+            dragon_y = 10;
+            dragon_z = 15;
+            io_stand_up = 0;
+            this.start_time = -1;
+        }
+    }
+
+}
 
 
 function render_dragon() {
     /* body */
     // set coordiante
-    body_center.cor.setTranslate(0, 10, 0);
+    body_center.cor.setTranslate(dragon_x, dragon_y, dragon_z);
+    body_center.cor.rotate(dragon_bearing,0, 1,0);
+    body_center.cor.scale(4, 4, 4);
     body_center.cor.rotate(io_stand_up, 1, 0, 0);
     body_center.init_mat();
     body_center.mat.scale(1, 0.9, 1.2);

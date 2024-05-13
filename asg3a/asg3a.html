@@ -12,16 +12,37 @@
             please use a browser that support canvas
         </canvas>
 
-        <button type="'button" id="maze_gen">generate maze</button>
-        <button type="'button" id="look_block">look block</button>
+        <p>
+            <b>placement</b>
+            use C to create/destory block<br>
+            <button type="'button" id="look_block">toggle selection</button>
+            (highlight where the block selection is)<br>
+            select block to be placed:
+            <button type="'button" id="b1">grass</button>
+            <button type="'button" id="b2">stone</button>
+            <button type="'button" id="b3">dirt</button>
+        </p>
+
+        <p>
+            <b>map editing</b>
+            <button type="'button" id="maze_gen">dump dirt</button>
+            <button type="'button" id="restore_map">restore map</button>
+        </p>
+
+        <p>
+            <b>dragon control</b>
+            <button type="'button" id="land">summon</button>
+        </p>
+
 
         <p id='fps_indicator'></p>
 
+
         <p>
+            <h3>controls</h3>
             use WSAD for movement<br>
-            use IKJL or mouth dragging for camera movement<br>
+            use IKJL or mouse for camera movement<br>
             use QE for panning<br>
-            use C to create/destory block
         </p>
 
 
@@ -32,7 +53,9 @@
             ylu155@uscc.edu<br>
             <br>
             Notes to Grader:<br>
-            TODO
+            There are a maze & some terrain feature included<br>
+            when dumping dirt, it is intentionally appearing block by block<br>
+            summon the dragon, and it will land before you
         </p>
 
         <script src="../lib/cuon-matrix-cse160.js"></script>
