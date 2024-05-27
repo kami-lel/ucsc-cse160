@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Programming Assignment 3A</title>
+        <meta charset="UTF-8" />
+    </head>
+
+    <body onload="main()">
+
+        <canvas id="webgl" width="800" height="800">
+            please use a browser that support canvas
+        </canvas>
+
+        <p>
+            <b>placement</b>
+            use C to create/destory block<br>
+            <button type="'button" id="look_block">toggle selection</button>
+            (highlight where the block selection is)<br>
+            select block to be placed:
+            <button type="'button" id="b1">grass</button>
+            <button type="'button" id="b2">stone</button>
+            <button type="'button" id="b3">dirt</button>
+        </p>
+
+        <p>
+            <b>map editing</b>
+            <button type="'button" id="maze_gen">dump dirt</button>
+            <button type="'button" id="restore_map">restore map</button>
+        </p>
+
+        <p>
+            <b>dragon control</b>
+            <button type="'button" id="land">summon</button>
+        </p>
+
+
+        <p id='fps_indicator'></p>
+
+
+        <p>
+            <h3>controls</h3>
+            use WSAD for movement<br>
+            use IKJL or mouse for camera movement<br>
+            use QE for panning<br>
+        </p>
+
+
+        <p>
+            CSE 160<br>
+            Programming Assignment 3A<br>
+            Yangyi Lu (Erik)<br>
+            ylu155@uscc.edu<br>
+            <br>
+            Notes to Grader:<br>
+            There are a maze & some terrain feature included<br>
+            when dumping dirt, it is intentionally appearing block by block<br>
+            summon the dragon, and it will land before you
+        </p>
+
+        <script src="../lib/cuon-matrix-cse160.js"></script>
+        <script src="../lib/cuon-utils.js"></script>
+        <script src="./shaders.js"></script>
+        <script src="./utils.js"></script>
+        <script src="./Shape.js"></script>
+        <script src="./Shape2.js"></script>
+        <script src="./dragon.js"></script>
+        <script src="./camera.js"></script>
+        <script src="./map.js"></script>
+        <script src="./map_gen.js"></script>
+        <script src="./main.js"></script>
+
+    </body>
+
+</html>
